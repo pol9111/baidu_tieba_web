@@ -124,7 +124,7 @@ urls:
 
 
 
-##创建表
+## 创建表
 
 create table if not exists tiezi(
 	title varchar(200),
@@ -137,7 +137,7 @@ create table if not exists tiezi(
 
 
 
-###插入数据
+### 插入数据
 
 "INSERT INTO tiezi (title, author, create_time, reply_num, last_reply, content) values (%s, %s, %s, %s, %s, %s)", (item['title'], item['author'], item['create_time'], item['reply_num'], item['last_reply'], item['content'])
 
