@@ -3,6 +3,7 @@ from aiohttp import ClientSession
 from async_config import *
 import time
 import re
+import aiomysql
 
 start_time = time.time()
 
@@ -29,7 +30,7 @@ async def run(start, stop):
 
 
 # 页面解析, 并保存到数据库
-async def save_to_database(start, stop):
+async def save_to_database(start, stop, loop):
     html = await asyncio.gather(asyncio.ensure_future(run(start, stop)))
     # print('单次解析数量:',len(html))
     result = [d for d in html[0] if d] # 把单次一个跨度的请求放入列表
@@ -43,22 +44,33 @@ async def save_to_database(start, stop):
                 item['author'] = re.findall(r'title="主题作者: (.*?)"', each_one_content)[0]
                 item['create_time'] = re.findall(r'创建时间">(.*?)</span>', each_one_content)[0]
                 item['reply_num'] = re.findall(r'"回复">(\d+)</span>', each_one_content)[0]
-                item['last_reply'] = \
-                re.findall(r'title="最后回复时间">\r\n[\s]*?(\d+:\d+|\d+-\d+)[\s]*?</span>', each_one_content)[0]
-                item['content'] = \
-                re.findall(r'threadlist_abs threadlist_abs_onlyline ">\n[\s]*(.*?)\n[\s]*</div>', each_one_content)[0]
+                item['last_reply'] = re.findall(r'title="最后回复时间">\r\n[\s]*?(\d+:\d+|\d+-\d+)[\s]*?</span>', each_one_content)[0]
+                item['content'] = re.findall(r'threadlist_abs threadlist_abs_onlyline ">\n[\s]*(.*?)\n[\s]*</div>', each_one_content)[0]
                 print(item)
-                await table.update({'title': item['title']}, {'$set': item}, True)
+                # 连接mysql
+                conn = await aiomysql.connect(
+                    host="192.168.1.8",
+                    port=3306,
+                    user="admin",
+                    password="Root110qwe",
+                    db="baidu_1",
+                    loop=loop,
+                )
+                # 异步写入数据
+                async with conn.cursor() as cur:
+                    await cur.execute("INSERT INTO tiezi (title, author, create_time, reply_num, last_reply, content) values (%s, %s, %s, %s, %s, %s)", (item['title'], item['author'], item['create_time'], item['reply_num'], item['last_reply'], item['content']))
+                    await conn.commit()
+                conn.close()
             except:
                 pass
 
 
 # 创建数据库任务
-def get_database_tasks(index):
-    print('index::',index)
+def get_database_tasks(index, loop):
+    print('index:',index)
     _tasks = [
         asyncio.ensure_future(
-            save_to_database(start=index, stop=index+5000) # 每次指定一个跨度
+            save_to_database(start=index, stop=index+5000, loop=loop) # 每次指定一个跨度
         )
     ]
     return _tasks
@@ -68,7 +80,7 @@ def get_database_tasks(index):
 loop = asyncio.get_event_loop()
 for i in range(0, 10000, 5000):
     # 待处理
-    tasks = get_database_tasks(i)
+    tasks = get_database_tasks(i, loop)
     # 启动
     loop.run_until_complete(asyncio.gather(*tasks))
 

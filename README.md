@@ -56,6 +56,8 @@ urls:
 
 
 
+
+
 ## 多版本用时测试
 
 以炉石传说吧前两百页为例子
@@ -65,12 +67,18 @@ urls:
 
 
 
+
+
 多线程
 8线程
 35.76421284675598
 
+
+
 16线程
 23.506305932998657
+
+
 
 32线程
 21.40897274017334 - 5(启动卡了)
@@ -81,14 +89,22 @@ urls:
 8线程
 32.424975872039795
 
+
+
 16线程
 35.64368152618408 - 8(阻塞了)
+
+
 
 32线程
 18.901715993881226
 
+
+
 64线程
 17.94631290435791
+
+
 
 
 
@@ -96,12 +112,34 @@ urls:
 
 6.3642566204071045 (单单请求与响应)
 
-62.65200972557068
+
+
+异步(存入mysql)
+75.84078431129456
+
+
 
 异步请求, 32线程写入
 21.274948835372925
 
 
+
+##创建表
+
+create table if not exists tiezi(
+	title varchar(200),
+	author varchar(20),
+	create_time varchar(10),
+	reply_num int,
+	last_reply varchar(50),
+	content varchar(1000)
+);
+
+
+
+###插入数据
+
+"INSERT INTO tiezi (title, author, create_time, reply_num, last_reply, content) values (%s, %s, %s, %s, %s, %s)", (item['title'], item['author'], item['create_time'], item['reply_num'], item['last_reply'], item['content'])
 
 
 
