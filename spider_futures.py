@@ -12,7 +12,7 @@ class Spider:
         self.kw = KW
         self.mongo_table = table
 
-    def get_urls(self.):
+    def get_urls(self):
         """获取url列表"""
         url_list = []
         for each in range(0, 10000, 50):

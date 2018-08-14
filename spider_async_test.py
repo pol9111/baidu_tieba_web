@@ -3,7 +3,7 @@ from aiohttp import ClientSession
 from async_config import *
 import time
 import re
-import aiomysql
+import redis
 
 start_time = time.time()
 
@@ -35,6 +35,7 @@ async def save_to_database(start, stop, loop):
     # print('单次解析数量:',len(html))
     result = [d for d in html[0] if d] # 把单次一个跨度的请求放入列表
     # print('rs长度',len(result))
+    item_lst = []
     for i in result:
         each_page_content = re.findall(r'<div class="t_con cleafix">([\s\S]*?)<li class=" j_thread_list clearfix"', i.decode('utf-8'))
         for each_one_content in each_page_content:
@@ -48,22 +49,24 @@ async def save_to_database(start, stop, loop):
                 item['content'] = re.findall(r'threadlist_abs threadlist_abs_onlyline ">\n[\s]*(.*?)\n[\s]*</div>', each_one_content)[0]
                 print(item)
                 # 连接mysql
-                conn = await aiomysql.connect(
-                    host="192.168.1.8",
-                    port=3306,
-                    user="admin",
-                    password="Root110qwe",
-                    db="baidu_1",
-                    loop=loop,
-                )
+                # conn = await aiomysql.connect(
+                #     host="192.168.1.8",
+                #     port=3306,
+                #     user="admin",
+                #     password="Root110qwe",
+                #     db="baidu_1",
+                #     loop=loop,
+                # )
                 # 异步写入数据
-                async with conn.cursor() as cur:
-                    await cur.execute("INSERT INTO tiezi (title, author, create_time, reply_num, last_reply, content) values (%s, %s, %s, %s, %s, %s)", (item['title'], item['author'], item['create_time'], item['reply_num'], item['last_reply'], item['content']))
-                    await conn.commit()
-                conn.close()
+                # async with conn.cursor() as cur:
+                #     await cur.execute("INSERT INTO tiezi (title, author, create_time, reply_num, last_reply, content) values (%s, %s, %s, %s, %s, %s)", (item['title'], item['author'], item['create_time'], item['reply_num'], item['last_reply'], item['content']))
+                #     await conn.commit()
+                # conn.close()
+                item_lst.append(item)
             except:
                 pass
-
+    redis_client = redis.Redis(host='127.0.0.1', port='6379')
+    redis_client.lpush('tiezi', item_lst)
 
 # 创建数据库任务
 def get_database_tasks(index, loop):

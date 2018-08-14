@@ -4,6 +4,7 @@ from multiprocessing.dummy import Pool as Threadpool
 from config import *
 import time
 import re
+import redis
 
 start_time = time.time()
 
@@ -43,6 +44,7 @@ async def save_to_database(start, stop):
 # 页面解析, 并保存到数据库
 def parse_resp(resp):
     each_page_content = re.findall(r'<div class="t_con cleafix">([\s\S]*?)<li class=" j_thread_list clearfix"', resp.decode('utf-8'))
+    item_lst = []
     for each_one_content in each_page_content:
         try:
             item = {}
@@ -55,9 +57,12 @@ def parse_resp(resp):
             item['content'] = \
             re.findall(r'threadlist_abs threadlist_abs_onlyline ">\n[\s]*(.*?)\n[\s]*</div>', each_one_content)[0]
             print(item)
-            table.update({'title': item['title']}, {'$set': item}, True)
+            item_lst.append(item)
+            # table.update({'title': item['title']}, {'$set': item}, True)
         except:
             pass
+    redis_client = redis.Redis(host='127.0.0.1', port=6379)
+    redis_client.lpush('tiezi', item_lst)
 
 # 创建数据库任务
 def get_database_tasks(index):
