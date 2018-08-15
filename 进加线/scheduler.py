@@ -33,7 +33,15 @@ def run():
 if __name__ == '__main__':
     start_time = time.time()
 
-    run()
+    process = []
+    # num_cpus = multiprocessing.cpu_count()
+    for i in range(4):
+        p = multiprocessing.Process(target=run)
+        p.start()
+        process.append(p)
+    for p in process:
+        p.join()
+
 
     logger = logger()
     logger.info('完成循环')

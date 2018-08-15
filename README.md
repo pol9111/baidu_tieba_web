@@ -125,7 +125,7 @@ urls:
 64线程
 17.94631290435791  
 
- 
+
 </br>  
 </br>   
 
@@ -139,8 +139,8 @@ urls:
 
 异步请求, 32线程写入
 21.274948835372925    
-  
-    
+
+
 ## 创建表
 
 create table if not exists tiezi(
@@ -153,16 +153,26 @@ create table if not exists tiezi(
 );
 </br>
 </br>
-  
+
 ### 插入数据
 
 "INSERT INTO tiezi (title, author, create_time, reply_num, last_reply, content) values (%s, %s, %s, %s, %s, %s)", (item['title'], item['author'], item['create_time'], item['reply_num'], item['last_reply'], item['content'])
 
+</br>
+</br>
 
+多进程+多线程
 
+54.989933013916016   5万  每个跨度循环结束后保存数据
 
+43.198081493377686   5万  每个进程结束保存数据
 
+103.46190881729126   10万  8进程
 
+27.243698596954346   5万  4进程  大大减少了读存数据的次数
+
+</br>
+</br>
 
 
 
