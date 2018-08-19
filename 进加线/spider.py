@@ -40,6 +40,6 @@ class Spider:
         """暂存数据到内存"""
         self.redis_client.lpush('tiezi', item)
 
-
+# id  //div[@class="threadlist_title pull_left j_th_tit"]/a/@href
 
 
