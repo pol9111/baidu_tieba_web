@@ -4,20 +4,21 @@ import re
 from s_redis.items import SRedisItem
 from scrapy_redis.spiders import RedisCrawlSpider
 from scrapy.linkextractors import LinkExtractor
-from scrapy.spiders import Rule, CrawlSpider
+from scrapy.spiders import Rule
 
 
-class TiebaSpider(CrawlSpider):
-    name = 'tieba'
+
+class Tieba3Spider(RedisCrawlSpider):
+    name = 'tieba3'
     allowed_domains = ['tieba.baidu.com']
-    # redis_key = "tiebaspider:start_urls"
-    start_urls = ['https://tieba.baidu.com/f?kw=%E7%82%89%E7%9F%B3%E4%BC%A0%E8%AF%B4&ie=utf-8&pn=50']
+    redis_key = "tieba3spider:start_urls"
 
+    # 只匹配下一页(有详情页, 可以用)  注意不能加/@href
     rules = (
-       Rule(LinkExtractor(allow=r'pn=\d+'), callback='parse_item', follow=True),
+       Rule(LinkExtractor(restrict_xpaths='//div[@id="frs_list_pager"]/a[contains(., "下一页")]'), callback='item_parse', follow=True),
     )
 
-    def parse_item(self, response):
+    def item_parse(self, response):
 
         each_page = response.xpath('//li[@class=" j_thread_list clearfix"]')
 
@@ -29,6 +30,7 @@ class TiebaSpider(CrawlSpider):
             item['create_time'] = tiezi.xpath('.//span[@class="pull-right is_show_create_time"]/text()').extract_first(default='N/A')
             item['reply_num'] = tiezi.xpath('.//span[@class="threadlist_rep_num center_text"]/text()').extract_first(default='N/A')
             item['last_reply'] = tiezi.xpath('.//span[@class="threadlist_reply_date pull_right j_reply_data"]/text()').re('\r\n\s*(\d+:\d+|\d+-\d+)\s*')[0]
-            content = tiezi.xpath('./div/div[2]/div[2]/div[1]/div/text()').extract_first(default='N/A')
-            item['content'] = re.sub('[\n\t\r\s]', '', content)
+            item['content'] = tiezi.xpath('./div/div[2]/div[2]/div[1]/div/text()').extract_first(default='N/A').strip()
+            # content = tiezi.xpath('./div/div[2]/div[2]/div[1]/div/text()').extract_first(default='N/A')
+            # item['content'] = re.sub('[\n\t\r\s]', '', content)
             yield item

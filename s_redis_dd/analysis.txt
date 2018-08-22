@@ -1,0 +1,67 @@
+
+https://tieba.baidu.com/f?kw=%E7%82%89%E7%9F%B3%E4%BC%A0%E8%AF%B4&ie=utf-8&pn=50
+
+
+User-Agent不要太新, 太新xpath匹配有问题
+'User-Agent': 'Mozilla/4.0 (compatible; GoogleToolbar 6.1.1518.856; Windows 5.2; MSIE 8.0.6001.18702)'
+
+//li[@class=" j_thread_list clearfix"]
+
+
+
+id  	//div[@class="threadlist_title pull_left j_th_tit "]/a/@href
+
+titile	//div[@class="threadlist_lz clearfix"]/div/a/text()
+
+content	//div[@class="threadlist_abs threadlist_abs_onlyline "]/text()  re('\n\s*(.*?)\s\n')
+
+author(普通和超级会员)	//span[@class="tb_icon_author "]/@title|//span[@class="tb_icon_author no_icon_author"]/@title
+
+create_time	//span[@class="pull-right is_show_create_time"]/text()
+
+last_reply  //span[@class="threadlist_reply_date pull_right j_reply_data"]/text()  re('\r\n\s*(\d+:\d+|\d+-\d+)\s*')
+
+reply_num 	//span[@class="threadlist_rep_num center_text"]/text()
+
+
+
+普通会员  //span[@class="tb_icon_author "]/@title
+超级会员  //span[@class="tb_icon_author no_icon_author"]/@title
+
+last_reply   '\r\n            11:37        '
+
+
+{'author': '主题作者: 今晚的康桥ლ',
+ 'content': '\n            这你🐴是竞技场？ \n        ',
+ 'create_time': '8-16',
+ 'id': '/p/5839952253',
+ 'last_reply': '\r\n            11:39        ',
+ 'reply_num': '79',
+ 'title': '这你🐴是竞技场？'}
+
+
+
+
+备用模糊匹配
+//li[contains(@class, "j_thread_list clearfix")]
+
+
+titile	//div[contains(@class, "threadlist_lz clearfix")]/div/a/text()
+
+content	//div[contains(@class, "threadlist_abs threadlist_abs_onlyline")]/text()
+
+author	//span[contains(@class, "tb_icon_author")]/@title
+
+create_time	//span[contains(@class, "pull-right is_show_create_time")]/text()
+
+last_reply  //span[contains(@class, "threadlist_reply_date pull_right j_reply_data")]/text()
+
+reply_num 	//span[contains(@class, "threadlist_rep_num center_text")]/text()
+
+id  	//div[contains(@class, "threadlist_title pull_left j_th_tit")]/a/@href
+
+
+
+
+
+

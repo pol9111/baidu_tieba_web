@@ -1,23 +1,22 @@
 # -*- coding: utf-8 -*-
-import scrapy
 import re
 from s_redis.items import SRedisItem
-from scrapy_redis.spiders import RedisCrawlSpider
-from scrapy.linkextractors import LinkExtractor
-from scrapy.spiders import Rule, CrawlSpider
+from scrapy_redis.spiders import RedisSpider
+import scrapy
+from scrapy import Spider
 
-
-class TiebaSpider(CrawlSpider):
-    name = 'tieba'
+class Tieba2Spider(RedisSpider):
+    name = 'tieba2'
     allowed_domains = ['tieba.baidu.com']
-    # redis_key = "tiebaspider:start_urls"
-    start_urls = ['https://tieba.baidu.com/f?kw=%E7%82%89%E7%9F%B3%E4%BC%A0%E8%AF%B4&ie=utf-8&pn=50']
+    redis_key = "tieba2spider:start_urls"
+    # start_urls = ['https://tieba.baidu.com/f?kw=%E7%82%89%E7%9F%B3%E4%BC%A0%E8%AF%B4&ie=utf-8&pn=50', 'https://tieba.baidu.com/f?kw=%E7%82%89%E7%9F%B3%E4%BC%A0%E8%AF%B4&ie=utf-8&pn=100']
 
-    rules = (
-       Rule(LinkExtractor(allow=r'pn=\d+'), callback='parse_item', follow=True),
-    )
+    # 自己给队列
+    def start_requests(self):
+        for url in self.start_urls:
+            yield scrapy.Request(url, callback=self.parse)
 
-    def parse_item(self, response):
+    def parse(self, response):
 
         each_page = response.xpath('//li[@class=" j_thread_list clearfix"]')
 

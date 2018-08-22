@@ -1,0 +1,21 @@
+<html>
+<head><meta charset="UTF-8"></head>
+<iframe src="" width="100%" height="100%"></iframe>
+
+<script>
+function parseQueryString(url) {
+    var urlParams = {};
+    url.replace(
+        new RegExp("([^?=&]+)(=([^&]*))?", "g"),
+        function($0, $1, $2, $3) {
+            urlParams[$1] = $3;
+        }
+    );
+    return urlParams;
+}
+
+var kwargs = parseQueryString(location.search);
+document.querySelector("iframe").src = "/logs/" + kwargs.project + "/" + kwargs.spider + "/" + kwargs.job + ".log"
+</script>
+
+<html>

@@ -1,0 +1,15 @@
+setup.py
+project.egg-info/PKG-INFO
+project.egg-info/SOURCES.txt
+project.egg-info/dependency_links.txt
+project.egg-info/entry_points.txt
+project.egg-info/top_level.txt
+s_redis/__init__.py
+s_redis/items.py
+s_redis/middlewares.py
+s_redis/pipelines.py
+s_redis/settings.py
+s_redis/spiders/__init__.py
+s_redis/spiders/tieba.py
+s_redis/spiders/tieba2.py
+s_redis/spiders/tieba3.py
