@@ -13,6 +13,7 @@ class TiebaSpider(CrawlSpider):
     # redis_key = "tiebaspider:start_urls"
     start_urls = ['https://tieba.baidu.com/f?kw=%E7%82%89%E7%9F%B3%E4%BC%A0%E8%AF%B4&ie=utf-8&pn=50']
 
+    # 普通版
     rules = (
        Rule(LinkExtractor(allow=r'pn=\d+'), callback='parse_item', follow=True),
     )

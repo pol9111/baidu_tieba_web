@@ -8,18 +8,13 @@ import scrapy
 from scrapy import Spider
 
 class Tieba2Spider(Spider):
-    name = 'tieba2'
+    name = 'tieba4'
     allowed_domains = ['tieba.baidu.com']
+    base_url = 'https://tieba.baidu.com/f?kw=%E7%82%89%E7%9F%B3%E4%BC%A0%E8%AF%B4&ie=utf-8&pn='
     # redis_key = "tieba2spider:start_urls"
-    # url_1 = 'https://tieba.baidu.com/f?kw=%E7%82%89%E7%9F%B3%E4%BC%A0%E8%AF%B4&ie=utf-8&pn=50'
     start_urls = ['https://tieba.baidu.com/f?kw=%E7%82%89%E7%9F%B3%E4%BC%A0%E8%AF%B4&ie=utf-8&pn=50']
 
-    # 自己给数据库队列
-    def start_requests(self):
-        for url in self.start_urls:
-            yield scrapy.Request(url, callback=self.parse)
-
-
+    # 增量爬取, 每次加10000
     def parse(self, response):
 
         each_page = response.xpath('//li[@class=" j_thread_list clearfix"]')
@@ -35,15 +30,20 @@ class Tieba2Spider(Spider):
             content = tiezi.xpath('./div/div[2]/div[2]/div[1]/div/text()').extract_first(default='N/A')
             item['content'] = re.sub('[\n\t\r\s]', '', content)
             yield item
+        page = int(re.findall('pn=(\d+)', response.url)[0])
+        if page:
+            for i in range(page, page + 10000):
+                yield scrapy.Request(url=self.base_url+str(i), callback=self.parse)
 
 
-    def closed(self, reason):
-        mailer = MailSender.from_settings(settings)
-        subject = 'qwe'
-        body = 'asd'
-        try:
-            mailer.send(to=[settings['MAIL_TO']], subject=subject, body=body, mimetype='text/plain')
-            print('邮件发送成功')
-        except Exception:
-            print('邮件发送失败')
 
+
+    # def closed(self, reason):
+    #     mailer = MailSender.from_settings(settings)
+    #     subject = 'qwe'
+    #     body = 'asd'
+    #     try:
+    #         mailer.send(to=[settings['MAIL_TO']], subject=subject, body=body, mimetype='text/plain')
+    #         print('邮件发送成功')
+    #     except Exception:
+    #         print('邮件发送失败')

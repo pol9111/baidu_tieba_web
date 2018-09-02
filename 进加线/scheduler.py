@@ -8,7 +8,7 @@ from utils import logger
 import multiprocessing
 
 
-# TODO: Scheduler多进程, 日志, 定时任务, 爬取队列, spider一个跨度一个跨度的爬, 增量爬取, 分布式
+# TODO: 定时任务, 增量爬取, 分布式
 
 
 def run():
@@ -50,4 +50,4 @@ if __name__ == '__main__':
 
     total_time = time.time() - start_time
     print(total_time)
-
+    logger.info(total_time)

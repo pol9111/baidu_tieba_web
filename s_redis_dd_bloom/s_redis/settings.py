@@ -11,7 +11,7 @@ MONGO_URI = 'localhost'
 MONGO_DATABASE = 'baidu'
 
 
-REDIS_HOST = "192.168.1.4"
+REDIS_HOST = 'localhost'
 # REDIS_HOST = "localhost"
 REDIS_PORT = 6379
 REDIS_PARAMS = {
@@ -53,3 +53,14 @@ ITEM_PIPELINES = {
 #DOWNLOADER_MIDDLEWARES = {
 #    's_redis.middlewares.SRedisDownloaderMiddleware': 543,
 #}
+
+
+MAIL_HOST = "smtp.163.com"  # 发送邮件的服务器
+MAIL_USER = "biscuit36@163.com"  # 用户名
+MAIL_PASS = "fd83ra"  # 发送邮箱的密码不是你注册时的密码，而是授权码！！！切记！
+MAIL_PORT = 465
+MAIL_SSL = True
+MAIL_FROM = "biscuit36@163.com"  # 邮件发送者
+MAIL_TO = "biscuit36@163.com"
+
+TELNETCONSOLE_PORT = [9002]
