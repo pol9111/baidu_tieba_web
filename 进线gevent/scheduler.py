@@ -1,22 +1,18 @@
-from concurrent.futures import ThreadPoolExecutor
-
-import gevent
-
 from spider import Spider
 from saver import Saver
-from concurrent import futures
 from task import Task
 from config import LOOP_NUM
 import time
 from utils import logger
 import multiprocessing
 from datetime import datetime
-from gevent.pool import Pool
+
 
 # TODO: 定时任务, 增量爬取, 分布式
 
 
 def run():
+    # 获取任务
     task = Task()
     url_list = task.get_task()
 

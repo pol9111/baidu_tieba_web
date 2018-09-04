@@ -1,14 +1,12 @@
-import grequests
 from config import *
 import re
 from utils import logger
-from task import Task
 import requests
 import gevent
 from gevent import monkey
 from gevent.pool import Pool
 
-# monkey.patch_all()
+
 
 class Spider:
     def __init__(self):
