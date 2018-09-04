@@ -1,23 +1,27 @@
 # -*- coding: utf-8 -*-
 import scrapy
 from s_redis.items import SRedisItem
-from scrapy_redis.spiders import RedisCrawlSpider
+from scrapy_redis.spiders import RedisSpider
 from scrapy.linkextractors import LinkExtractor
 from scrapy.spiders import Rule
 
 
 
-class Tieba3Spider(RedisCrawlSpider):
-    name = 'tieba3'
+class Tieba3Spider(RedisSpider):
+    name = 'tieba5'
     allowed_domains = ['tieba.baidu.com']
-    redis_key = "tieba3spider:start_urls"
+    redis_key = "tieba5spider:start_urls"
 
-    # 只匹配下一页(有详情页, 可以用)  注意不能加/@href
-    rules = (
-       Rule(LinkExtractor(restrict_xpaths='//div[@id="frs_list_pager"]/a[contains(., "下一页")]'), callback='item_parse', follow=True),
-    )
 
-    def item_parse(self, response):
+    def start_requests(self):
+        for url in self.start_urls:
+            yield self.make_requests_from_url(url)
+
+    def make_requests_from_url(self, url):
+        return scrapy.Request(url, dont_filter=True, callback=self.parse)
+
+
+    def parse(self, response):
 
         each_page = response.xpath('//li[@class=" j_thread_list clearfix"]')
 

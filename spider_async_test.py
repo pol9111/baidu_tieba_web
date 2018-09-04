@@ -41,6 +41,7 @@ async def save_to_database(start, stop, loop):
         for each_one_content in each_page_content:
             try:
                 item = {}
+                item["id"] = re.findall(r'href="(/p/\d+)"', each_one_content)[0]
                 item['title'] = re.findall(r'class="j_th_tit ">(.*?)</a>', each_one_content)[0]
                 item['author'] = re.findall(r'title="主题作者: (.*?)"', each_one_content)[0]
                 item['create_time'] = re.findall(r'创建时间">(.*?)</span>', each_one_content)[0]

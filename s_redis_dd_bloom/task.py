@@ -6,10 +6,10 @@ url = 'https://tieba.baidu.com/f?kw=%E7%82%89%E7%9F%B3%E4%BC%A0%E8%AF%B4&ie=utf-
 urls = []
 for i in range(0, 2000000, 50):
     each_page = url + str(i)
-    # urls.append(each_page)
-    REDIS_CLIENT_DB5.rpush('tieba2spider:stat_url', each_page)
+    urls.append(each_page)
+    # REDIS_CLIENT_DB5.rpush('tieba2spider:stat_url', each_page)
 
+
+REDIS_CLIENT_DB5.lpush('tieba5spider:start_urls', urls)
 print('finish')
-# REDIS_CLIENT_DB5.lpush('tieba2spider:start_urls', urls)
-
 

@@ -1,4 +1,4 @@
-from multiprocessing.dummy import Pool as Threadpool
+from concurrent import futures
 import requests
 from config import *
 import re
@@ -31,6 +31,7 @@ class Spider:
         for each_one_content in each_page_content:
             try:
                 item = {}
+                item["id"] = re.findall(r'href="(/p/\d+)"', each_one_content)[0]
                 item['title'] = re.findall(r'class="j_th_tit ">(.*?)</a>', each_one_content)[0]
                 item['author'] = re.findall(r'title="主题作者: (.*?)"', each_one_content)[0]
                 item['create_time'] = re.findall(r'创建时间">(.*?)</span>', each_one_content)[0]
@@ -51,11 +52,8 @@ if __name__ == '__main__':
 
     spider = Spider()
     urls = spider.get_urls()
-    pool = Threadpool(32)
-    pool.map(spider.get_resp, urls)
-    pool.close()
-    pool.join()
-
+    with futures.ThreadPoolExecutor(32) as executor:
+        executor.map(spider.get_resp, urls)
 
     end_time = time.time()
     total_time = end_time - start_time

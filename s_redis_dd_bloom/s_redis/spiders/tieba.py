@@ -32,4 +32,7 @@ class TiebaSpider(CrawlSpider):
             item['last_reply'] = tiezi.xpath('.//span[@class="threadlist_reply_date pull_right j_reply_data"]/text()').re('\r\n\s*(\d+:\d+|\d+-\d+)\s*')[0]
             content = tiezi.xpath('./div/div[2]/div[2]/div[1]/div/text()').extract_first(default='N/A')
             item['content'] = re.sub('[\n\t\r\s]', '', content)
+            from scrapy.shell import inspect_response
+            inspect_response(response, self)
+
             yield item
