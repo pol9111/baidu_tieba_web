@@ -25,10 +25,10 @@ class Tieba3Spider(RedisCrawlSpider):
             item = SRedisItem()
             item['id'] = tiezi.xpath('./div/div[2]/div[1]/div[1]/a/@href').extract_first(default='N/A')
             item['title'] = tiezi.xpath('.//div[@class="threadlist_lz clearfix"]/div/a/text()').extract_first(default='N/A')
-            item['author'] = tiezi.xpath('.//span[@class="tb_icon_author "]/@title|//span[@class="tb_icon_author no_icon_author"]/@title').re('主题作者:\s(.*)')[0]
+            item['author'] = tiezi.xpath('.//span[@class="tb_icon_author "]/@title|//span[@class="tb_icon_author no_icon_author"]/@title').re_first('主题作者:\s(.*)')
             item['create_time'] = tiezi.xpath('.//span[@class="pull-right is_show_create_time"]/text()').extract_first(default='N/A')
             item['reply_num'] = tiezi.xpath('.//span[@class="threadlist_rep_num center_text"]/text()').extract_first(default='N/A')
-            item['last_reply'] = tiezi.xpath('.//span[@class="threadlist_reply_date pull_right j_reply_data"]/text()').re('\r\n\s*(\d+:\d+|\d+-\d+)\s*')[0]
+            item['last_reply'] = tiezi.xpath('.//span[@class="threadlist_reply_date pull_right j_reply_data"]/text()').re_first('\r\n\s*(\d+:\d+|\d+-\d+)\s*')
             item['content'] = tiezi.xpath('./div/div[2]/div[2]/div[1]/div/text()').extract_first(default='N/A').strip()
             # content = tiezi.xpath('./div/div[2]/div[2]/div[1]/div/text()').extract_first(default='N/A')
             # item['content'] = re.sub('[\n\t\r\s]', '', content)

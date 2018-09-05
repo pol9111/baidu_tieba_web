@@ -46,7 +46,7 @@ SCHEDULER_PERSIST = True
 
 
 ITEM_PIPELINES = {
-   # 's_redis.pipelines.MongoPipeline': 300,
+   's_redis.pipelines.MongoPipeline': 300,
    'scrapy_redis.pipelines.RedisPipeline': 900,  # 数据保存到redis里
 }
 

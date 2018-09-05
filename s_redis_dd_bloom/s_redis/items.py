@@ -3,6 +3,7 @@
 import scrapy
 
 class SRedisItem(scrapy.Item):
+    table = 'tiezi_s_redis'
     title = scrapy.Field()
     author = scrapy.Field()
     create_time = scrapy.Field()
