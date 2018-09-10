@@ -34,9 +34,10 @@ def run():
 if __name__ == '__main__':
     start_time = time.time()
 
+
     process = []
-    # num_cpus = multiprocessing.cpu_count()
-    for i in range(4):
+    num_cpus = multiprocessing.cpu_count()
+    for i in range(4): # 以核心数为主, 用cpu_count反而更慢
         p = multiprocessing.Process(target=run)
         p.start()
         process.append(p)
@@ -51,4 +52,6 @@ if __name__ == '__main__':
 
     total_time = time.time() - start_time
     print(total_time)
-    logger.info(datetime.now(), total_time)
+    logger.info(total_time)
+    logger.info(datetime.now())
+
