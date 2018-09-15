@@ -3,7 +3,7 @@ import time
 from config import LOOP_NUM
 from saver import Saver
 from tasker import Tasker
-from utils import logger
+from utils import logger, run_time
 from workers import app
 
 @app.task
