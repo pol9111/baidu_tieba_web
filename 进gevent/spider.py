@@ -1,22 +1,20 @@
+from gevent import monkey
 from config import *
 import re
 from utils import logger
 import requests
 import gevent
-from gevent import monkey
 from gevent.pool import Pool
-
-
 
 class Spider:
     def __init__(self):
         self.headers = HEADERS
         # self.proxies = PROXIES
-        self.url = URL
+        self.url = BASE_URL
         self.kw = KW
         self.redis_client = REDIS_CLIENT
         self.logger = logger()
-        self.monkey =  monkey.patch_all()
+        # self.monkey =  monkey.patch_all()
 
     def fetch_async(self, method, url, req_kwargs):
         resp = requests.request(method=method, url=url, **req_kwargs)
@@ -27,9 +25,10 @@ class Spider:
         """获取响应内容"""
         req_list = []
         pool = Pool(64)
-        for url in per_step_urls:
-            req = pool.spawn(self.fetch_async, method='get', url=url, req_kwargs={})
+        for num in per_step_urls:
+            req = pool.spawn(self.fetch_async, method='get', url=BASE_URL+str(num), req_kwargs={})
             req_list.append(req)
+        gevent.sleep(1)
         gevent.joinall(req_list)
 
 

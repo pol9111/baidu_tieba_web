@@ -1,3 +1,5 @@
+from gevent import monkey
+monkey.patch_all()
 from spider import Spider
 from saver import Saver
 from task import Task
@@ -31,7 +33,6 @@ def run():
 
 if __name__ == '__main__':
     start_time = time.time()
-
 
     process = []
     # num_cpus = multiprocessing.cpu_count()

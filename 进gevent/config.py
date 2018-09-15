@@ -3,7 +3,7 @@ import redis
 
 # 请求构造参数
 KW = '炉石传说' # 要爬取的贴吧
-URL = 'https://tieba.baidu.com'
+BASE_URL = 'https://tieba.baidu.com/f?kw=炉石传说&ie=utf-8&pn='
 HEADERS = {"User-Agent": "Mozilla/5.0 (Windows NT 6.1; WOW64) AppleWebKit/535.1 (KHTML, like Gecko) Chrome/14.0.835.163 Safari/535.1"}
 # PROXIES = { "https":"https://111.90.145.111:3128"}
 
@@ -13,8 +13,8 @@ MONGO_DB = MONGO_URL['baidu']
 MONGO_TABLE = MONGO_DB['tiezi']
 
 # 连接redis
-REDIS_CLIENT = redis.Redis(host='127.0.0.1', port=6379)
-REDIS_CLIENT_DB2 = redis.Redis(host='127.0.0.1', port=6379, db=2)
+REDIS_CLIENT = redis.Redis(host='127.0.0.1', port=6379, db=7) # 数据暂存列表
+REDIS_CLIENT_DB2 = redis.Redis(host='127.0.0.1', port=6379, db=6) # url列表
 
 # 任务配置   LOOP_NUM * STOP_PER_STEP == STOP_PAGE 几个进程就乘于几倍 250是50000个帖子
 START_PAGE = 0

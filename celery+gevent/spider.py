@@ -16,7 +16,7 @@ class Spider:
         self.kw = KW
         self.redis_client = REDIS_CLIENT
         self.logger = logger()
-        self.monkey =  monkey.patch_all()
+        # self.monkey =  monkey.patch_all()
 
     def fetch_async(self, method, url, req_kwargs):
         resp = requests.request(method=method, url=url, **req_kwargs)

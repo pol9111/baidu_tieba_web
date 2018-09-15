@@ -13,8 +13,8 @@ MONGO_DB = MONGO_URL['baidu']
 MONGO_TABLE = MONGO_DB['tiezi']
 
 # 连接redis
-REDIS_CLIENT = redis.Redis(host='127.0.0.1', port=6379)
-REDIS_CLIENT_DB2 = redis.Redis(host='127.0.0.1', port=6379, db=2)
+REDIS_CLIENT = redis.Redis(host='127.0.0.1', port=6379, db=7)
+REDIS_CLIENT_DB2 = redis.Redis(host='127.0.0.1', port=6379, db=6)
 
 # celery配置
 BROKER = 'redis://127.0.0.1:6379/1'

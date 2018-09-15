@@ -23,6 +23,7 @@ class Spider:
         for each_one_content in each_page_content:
             try:
                 item = {}
+                item["id"] = re.findall(r'href="(/p/\d+)"', each_one_content)[0]
                 item["title"] = re.findall(r'class="j_th_tit ">(.*?)</a>', each_one_content)[0]
                 item["author"] = re.findall(r'title="主题作者: (.*?)"', each_one_content)[0]
                 item["create_time"] = re.findall(r'创建时间">(.*?)</span>', each_one_content)[0]
@@ -38,7 +39,7 @@ class Spider:
 
     def save_data(self, item):
         """暂存数据到内存"""
-        self.redis_client.lpush('tiezi', item)
+        self.redis_client.sadd('tiezi', item)
 
 
 

@@ -1,0 +1,4 @@
+# 启动一个worker
+celery -A workers worker -l info -P gevent -Ofair -n worker1
+# 发布一次任务
+python tasks.py

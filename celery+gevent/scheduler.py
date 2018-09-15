@@ -29,8 +29,8 @@ def run():
         spider.async_req(per_step_urls)
 
         # 保存数据
-        # saver = Saver()
-        # saver.run()
+        saver = Saver()
+        saver.run()
 
 
     logger.info('完成循环')

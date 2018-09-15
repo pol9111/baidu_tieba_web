@@ -13,8 +13,8 @@ MONGO_DB = MONGO_URL['baidu']
 MONGO_TABLE = MONGO_DB['tiezi']
 
 # 连接redis
-REDIS_CLIENT = redis.Redis(host='127.0.0.1', port=6379)
-REDIS_CLIENT_DB2 = redis.Redis(host='127.0.0.1', port=6379, db=2)
+REDIS_CLIENT = redis.Redis(host='127.0.0.1', port=6379, db=6)
+REDIS_CLIENT_DB2 = redis.Redis(host='127.0.0.1', port=6379, db=7)
 
 # 任务配置   LOOP_NUM * STOP_PER_STEP == STOP_PAGE
 START_PAGE = 0

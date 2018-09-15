@@ -25,9 +25,9 @@ def run():
         with futures.ThreadPoolExecutor(64) as executor:
             executor.map(spider.get_resp, per_step_urls)
 
-        # 保存数据
-        saver = Saver()
-        saver.run()
+        # # 保存数据
+        # saver = Saver()
+        # saver.run()
 
 
 
@@ -37,7 +37,7 @@ if __name__ == '__main__':
 
     process = []
     num_cpus = multiprocessing.cpu_count()
-    for i in range(4): # 以核心数为主, 用cpu_count反而更慢
+    for i in range(1): # 以核心数为主, 用cpu_count反而更慢
         p = multiprocessing.Process(target=run)
         p.start()
         process.append(p)
