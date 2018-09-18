@@ -17,20 +17,22 @@ def run():
         # 每次循环的urls
         per_step_urls = tasker.get_urls(each_task)
         # 待处理
-        tasks = tasker.create_task(i, per_step_urls, loop)
+        tasks = tasker.create_task(i, per_step_urls)
         # 启动
         loop.run_until_complete(asyncio.gather(*tasks))
 
-    # 保存数据到mongodb
-    saver = Saver()
-    saver.run()
+    # # 保存数据到mongodb
+    # saver = Saver()
+    # saver.run()
+
+    loop.close()
 
 if __name__ == '__main__':
 
     run()
 
-    logger = logger()
-    logger.info('完成循环')
+    log = logger()
+    log.info('完成循环')
     print('finish')
 
 

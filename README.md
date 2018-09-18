@@ -1,4 +1,4 @@
-# Tieba-tiezi
+# baidu_tieba_web
 
 ## 目标
 
@@ -41,11 +41,13 @@ create table if not exists tiezi(
 </br>
 
 单线程
+</br>
 242.61285209655762     
 </br>
 </br>
 
 多线程
+</br>
 8线程
 35.76421284675598  
 </br>
@@ -80,14 +82,6 @@ create table if not exists tiezi(
 63.30482363700867(响应+解析+存入redis+导入mongoDB)
 升级了带宽
 25.028305530548096
-
-
-</br>
-
-
-
-64线程
-17.94631290435791  
 
 
 </br>  

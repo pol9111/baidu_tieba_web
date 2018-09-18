@@ -1,11 +1,12 @@
-import pymongo
 import motor.motor_asyncio
+import random
+import pymongo
 import redis
+from UserAgent import USERAGENT
 
-# 请求构造参数
 KW = '炉石传说' # 要爬取的贴吧
 URL = 'https://tieba.baidu.com'
-HEADERS = {"User-Agent": "Mozilla/5.0 (Windows NT 6.1; WOW64) AppleWebKit/535.1 (KHTML, like Gecko) Chrome/14.0.835.163 Safari/535.1"}
+HEADERS = {'UserAgent': random.choice(USERAGENT)}
 PROXIES = { "http":"109.172.160.93:53281"}
 
 # 连接mongodb
@@ -25,6 +26,3 @@ START_PER_STEP = 0
 STOP_PER_STEP = 50 # STOP_PER_STEP次数越大存硬盘的次数越少  但占内存空间越大
 LOOP_NUM = 5 # loop循环次数越少读存硬盘的次数越少
 
-# celery配置
-BROKER = 'redis://127.0.0.1:6379/4'
-BACKEND = 'redis://127.0.0.1:6379/5'

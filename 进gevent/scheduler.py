@@ -2,7 +2,7 @@ from gevent import monkey
 monkey.patch_all()
 from spider import Spider
 from saver import Saver
-from task import Task
+from tasker import Task
 from config import LOOP_NUM
 import time
 from utils import logger

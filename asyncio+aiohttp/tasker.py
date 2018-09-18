@@ -23,16 +23,17 @@ class Tasker:
         """获取每次循环的url列表"""
         per_step_urls = []
         for each in range(self.start_per_step, self.stop_per_step):
-            each_page_url = urls[each]
+            each_page_url = urls.pop()
             per_step_urls.append(each_page_url)
         return per_step_urls
 
-    def create_task(self, index, per_step_urls, loop):
+    def create_task(self, index, per_step_urls):
         """创建异步任务"""
         spider = Spider()
         print('开始下一循环:', index)
         _tasks = [
-            asyncio.ensure_future(spider.parse(per_step_urls, loop=loop))  # 每次指定一个跨度
+            asyncio.ensure_future(spider.parse(per_step_urls))  # 每次指定一个跨度
+            # 可以在这里加任务
         ]
         return _tasks
 

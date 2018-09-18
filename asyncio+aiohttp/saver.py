@@ -1,8 +1,8 @@
-from config import REDIS_CLIENT
 from config import *
 from utils import logger
 
 class Saver:
+
     def __init__(self):
         self.redis_client = REDIS_CLIENT
         self.mongo_table = MONGO_TABLE
@@ -31,3 +31,6 @@ class Saver:
     def run(self):
         self.get_item()
         self.push_item(self.item_list)
+
+
+

@@ -1,5 +1,5 @@
+from datetime import datetime
 import logging
-import os
 import time
 
 def logger():
@@ -23,5 +23,18 @@ def logger():
     log.addHandler(write_log)
     return log
 
+def run_time(func):
+    def new_func(*args, **kwargs):
+        start_time = datetime.now()
 
+        func(*args, **kwargs)
+
+        end_time = datetime.now()
+        total_time = end_time - start_time
+        print(total_time)
+        log = logger()
+        log.info(total_time)
+        log.info(datetime.now())
+
+    return new_func
 

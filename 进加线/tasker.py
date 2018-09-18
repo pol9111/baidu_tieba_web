@@ -1,6 +1,7 @@
 from config import *
 
 class Task:
+
     def __init__(self):
         self.redis_client = REDIS_CLIENT_DB2
         self.start_page = START_PAGE
@@ -20,7 +21,7 @@ class Task:
         """获取每次循环的url列表"""
         per_step_urls = []
         for each in range(self.start_per_step, self.stop_per_step):
-            each_page_url = urls[each]
+            each_page_url = urls.pop()
             per_step_urls.append(each_page_url)
         return per_step_urls
 

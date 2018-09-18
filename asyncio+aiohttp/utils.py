@@ -1,5 +1,4 @@
 import logging
-import os
 import time
 from datetime import datetime
 
@@ -12,8 +11,8 @@ def logger():
 
     # 创建一个handler，用于写入日志文件
     write_time = time.strftime('%Y%m%d%H%M', time.localtime(time.time()))
-    log_name = write_time + '.log'
-    write_log = logging.FileHandler(log_name, mode='a')
+    log_name = 'log\\' + write_time + '.log'
+    write_log = logging.FileHandler(log_name, mode='a', encoding='utf-8')
     write_log.setLevel(logging.INFO)
 
     # 定义handler的输出格式

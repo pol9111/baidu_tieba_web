@@ -15,6 +15,7 @@ MONGO_TABLE = MONGO_DB['tiezi']
 # 连接redis
 REDIS_CLIENT = redis.Redis(host='127.0.0.1', port=6379, db=7)
 REDIS_CLIENT_DB2 = redis.Redis(host='127.0.0.1', port=6379, db=6)
+MAX_NUMBER = 2000 # redis内最大数据量
 
 # 任务配置   LOOP_NUM * STOP_PER_STEP == STOP_PAGE 几个进程就乘于几倍 250是50000个帖子
 START_PAGE = 0

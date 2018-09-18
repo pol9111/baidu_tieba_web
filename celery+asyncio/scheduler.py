@@ -1,14 +1,11 @@
 import asyncio
-import time
 from config import LOOP_NUM
 from saver import Saver
 from tasker import Tasker
-from utils import logger, run_time
-from workers import app
+from utils import run_time, logger
 
-@app.task
+@run_time
 def run():
-    start_time = time.time()
     # 协程池
     loop = asyncio.get_event_loop()
 
@@ -24,21 +21,19 @@ def run():
         # 启动
         loop.run_until_complete(asyncio.gather(*tasks))
 
-    # 保存数据到mongodb
-    saver = Saver()
-    saver.run()
+    # # 保存数据到mongodb
+    # saver = Saver()
+    # saver.run()
 
-    total_time = time.time() - start_time
-    print(total_time)
+    loop.close()
 
 if __name__ == '__main__':
 
-    run.delay()
+    run()
 
-    logger = logger()
-    logger.info('完成循环')
+    log = logger()
+    log.info('完成循环')
     print('finish')
-
 
 
 

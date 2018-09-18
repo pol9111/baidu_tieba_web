@@ -20,7 +20,7 @@ class Task:
         """获取每次循环的url列表"""
         per_step_urls = []
         for each in range(self.start_per_step, self.stop_per_step):
-            each_page_url = urls[each]
+            each_page_url = urls.pop()
             per_step_urls.append(each_page_url)
         return per_step_urls
 

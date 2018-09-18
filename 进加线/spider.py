@@ -4,13 +4,14 @@ import re
 from utils import logger
 
 class Spider:
+
     def __init__(self):
         self.headers = HEADERS
         # self.proxies = PROXIES
         self.url = URL
         self.kw = KW
         self.redis_client = REDIS_CLIENT
-        self.logger = logger()
+        self.log = logger()
 
     def get_resp(self, url):
         """获取响应内容"""
@@ -33,7 +34,7 @@ class Spider:
                 print(item)
                 self.save_data(item)
             except Exception as e:
-                self.logger.error('页面解析失败'+str(e))
+                self.log.error('页面解析失败'+str(e))
                 print(e)
                 pass
 
