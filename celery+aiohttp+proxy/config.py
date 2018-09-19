@@ -18,6 +18,7 @@ REDIS_CLIENT = redis.StrictRedis(host='127.0.0.1', port=6379, db=7)
 REDIS_CLIENT_DB2 = redis.StrictRedis(host='127.0.0.1', port=6379, db=6)
 MAX_NUMBER = 2500 # redis内最大数据量
 RETRY_TABLE1 = 'retry1' # 失败重试表
+NODE = 2 # 重试列表要分成几段循环
 
 # 任务配置   LOOP_NUM * STOP_PER_STEP == STOP_PAGE 几个进程就乘于几倍 250是50000个帖子
 START_PAGE = 0

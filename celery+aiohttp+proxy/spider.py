@@ -4,7 +4,7 @@ import random
 from config import HEADERS, REDIS_CLIENT_DB2, RETRY_TABLE1
 
 
-class TiebaSpider(object):
+class TiebaSpider:
 
     async def fetch(self, sem, url, session, proxies):
         """下载器"""
@@ -15,7 +15,7 @@ class TiebaSpider(object):
                     if response.status == 200:
                         return await response.read() # 获取响应文件, 注意不是马上获取, 异步操作要加await
                     else:
-                        print('请求失败:', url)
+                        print('响应错误:', url)
                         REDIS_CLIENT_DB2.sadd(RETRY_TABLE1, url)
             except (aiohttp.ClientError, aiohttp.client_exceptions.ClientConnectorError, asyncio.TimeoutError, AttributeError):
                 print('请求失败!!', url)
