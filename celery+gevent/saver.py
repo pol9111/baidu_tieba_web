@@ -1,35 +1,3 @@
-from config import *
-from utils import logger
 
-class Saver:
-    def __init__(self):
-        self.redis_client = REDIS_CLIENT
-        self.mongo_table = MONGO_TABLE
-        self.item_lst = []
-        self.logger = logger()
-
-    def get_item(self):
-        """ä»å†…å­˜ä¸­è·å–æ•°æ®"""
-        while True:
-            try:
-                cmp = self.redis_client.lpop('tiezi').decode('utf-8')
-                item = eval(cmp)
-                self.item_lst.append(item)
-            except Exception as e:
-                self.logger.error('å­˜å…¥mongoDBå¤±è´¥'+str(e))
-                print(e)
-                break
-
-    def push_item(self, item):
-        """å­˜å…¥mongodbç¡¬ç›˜"""
-        self.mongo_table.insert_many(item)
-        print('å·²å­˜å…¥mongoDB')
-
-
-    def run(self):
-        self.get_item()
-        self.push_item(self.item_lst)
-
-
-
-
+¼°¸°d)ˆZõ Îƒ¼â:ÈÙî˜ì‰<ñCdCÄ©Ès¿DÎE¬D®Eì‡X
+¡b=„‹!LC¬†Ñ	ó,ŒQ˜?ÃX†y†æ6Œj„µÚv#GxÁm„w»iR‘X•p"ñTÂPâDÂo‰$<K|•på·(ZQv¢Eù3ŠE”Ë(ü(·»oÒ±Ã Æñî›<ÅøCEfUFSf[ÆPæDÆBæR†/s+£g-nœ½8&q^Ç±ŠsÇ[œ£	.Ø$è'PQXUĞTØV0P8V0Wx«àIá‹‚¢ÊŠŠc•'*ú*‡*nTşV±Vù¬¢¤ñPCCcKÃ¥Æ‘†™Æ…†F_ÃA’å$šI¶wëdämI>%QÔYÑq¤³©£¯s¨c¦s¡Ã×¹ÕQI±šÂIŠ§)ŒS¼Já>ÅÇŞRÜOã{šGitÓì¥ñÍ`ëšÛú‡®Î¬®¼ÜÛİ“v†İ&^g°Èp™Ák†{YT²¬fÑÉò,‹a–“,î²\ı?Pš9¶s˜æ8ÿ„e÷9¼äø–C)ÏÃ<êyçÑÍ³—Ç2ÏîçåÀdÙÄw“G&ÎL^˜›¼2ñÇäƒ	ßäv·Qßñäßóõ=Š+Z;ú‡n-ŞYØXô-”m~µQ·ylãÒæÈÆÔæMßÆ¾Ã’ƒ†Ã–ƒÃ¾ƒ™Ã…ƒ•Ãµƒ—e5—uç./]\¹œºxp¹qQ*ğ°€VúX¸Ü½•ŠÇª‡†Ç–‡Ç±‡™Ç…‡GßÃ—,~ÀÃGnş²v¶!QqfîŸaf&RRrHo„ô^HXDDDDHwÙa}Š>D"rˆ„„„ˆ„ˆY„„DD„ô!$""B‘°ºÌ.‹?˜ÒşŸööÔŞ°úr®³3ÿ}™gwvfçùíQL•š ®¥9ˆ¶ tñ<(Ux”xcA™¢6$ÑZBÒBWHî†Ğ’g!ô…d „ñPƒÚ+åò	Ü¯”J¼¨”X%F*etú–øqùrWÂÒÆ£°<ãKX’aôVÉË*ŒUIä:OüÆÇŸó9İ'*Ş¥pïò×ášÉ¾|úêyJt‚÷zµÓ¼uD 0bŸÂˆ}hà|÷“EúIŒ}æç>2;i®

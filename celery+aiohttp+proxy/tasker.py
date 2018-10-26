@@ -1,41 +1,44 @@
-from config import *
+from config import REDIS_CLIENT_DB2, RETRY_TABLE1, STOP_PAGE, START_PAGE, START_PER_STEP, STOP_PER_STEP, NODE
 
 
-class Tasker:
+class Tasker(object):
 
     def __init__(self):
         self.retry_tasks = []
+        self.redis_client_db2 = REDIS_CLIENT_DB2
+        self.retry_table1 = RETRY_TABLE1
+        self.stop_page = STOP_PAGE
+        self.start_page = START_PAGE
+        self.start_per_step = START_PER_STEP
+        self.stop_per_step = STOP_PER_STEP
 
-    @staticmethod
-    def check_retries():
-        if REDIS_CLIENT_DB2.scard(RETRY_TABLE1):
+    def check_retries(self):
+        if self.redis_client_db2.scard(self.retry_table1):
             return True
         else:
             return False
 
-    @staticmethod
-    def get_task():
+    def get_task(self):
         """获取任务"""
         url_list = []
-        for i in range(START_PAGE, STOP_PAGE):
-            single_task = REDIS_CLIENT_DB2.lpop('urls')
+        for i in range(self.start_page, self.stop_page):
+            single_task = self.redis_client_db2.lpop('urls')
             url_list.append(single_task)
         return url_list
 
-    @staticmethod
-    def get_perloop(urls):
+    def get_perloop(self,urls):
         """获取每次循环的url列表"""
         per_step_urls = []
-        for each in range(START_PER_STEP, STOP_PER_STEP):
+        for each in range(self.start_per_step, self.stop_per_step):
             each_page_url = urls.pop()
             per_step_urls.append(each_page_url)
         return per_step_urls
 
     def get_retry_task(self):
         """获取每次重试任务"""
-        retry_num = REDIS_CLIENT_DB2.scard(RETRY_TABLE1)
+        retry_num = self.redis_client_db2.scard(self.retry_table1)
         for i in range(retry_num+1):
-            url = REDIS_CLIENT_DB2.spop(RETRY_TABLE1)
+            url = self.redis_client_db2.spop(self.retry_table1)
             self.retry_tasks.append(url)
         # return cls.retry_tasks
 
@@ -49,4 +52,3 @@ class Tasker:
         else:
             retry_list = [self.retry_tasks]
             return retry_list
-

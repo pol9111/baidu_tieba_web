@@ -1,4 +1,4 @@
-from config import *
+from config import URL, REDIS_CLIENT_DB2, KW
 
 
 def create_urls():
@@ -11,4 +11,3 @@ def create_urls():
 if __name__ == '__main__':
     create_urls()
     print('finish')
-

@@ -1,0 +1,6 @@
+﻿# 启动一个worker
+celery -A workers worker -l info -P solo -n worker1
+# 发布一个任务
+python run.py
+# 监控数据
+celery flower --broker=redis://127.0.0.1:6379/4   (db要和broker一样)

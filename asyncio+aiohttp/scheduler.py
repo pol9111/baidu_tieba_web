@@ -21,9 +21,9 @@ def run():
         # 启动
         loop.run_until_complete(asyncio.gather(*tasks))
 
-    # # 保存数据到mongodb
-    # saver = Saver()
-    # saver.run()
+    # 保存数据到mongodb
+    saver = Saver()
+    saver.run()
 
     loop.close()
 

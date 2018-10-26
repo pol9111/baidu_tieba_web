@@ -1,4 +1,3 @@
-import motor.motor_asyncio
 import random
 import pymongo
 import redis
@@ -33,5 +32,3 @@ BACKEND = 'redis://127.0.0.1:6379/5'
 
 # Proxy-url
 PROXY_URL = 'http://47.75.52.39:5555/random'
-
-

@@ -5,10 +5,10 @@ from config import PROXY_URL
 from tools.Proxy import FreeProxy
 
 
-class Log:
+class LogHandler(object):
 
-    @classmethod
-    def logger(cls):
+    @staticmethod
+    def logger():
         # 创建一个logger
         log = logging.getLogger()
 
@@ -30,12 +30,15 @@ class Log:
         return log
 
 
-class Proxy:
+class ProxyHandler(object):
 
-    @staticmethod
-    def get_proxies():
-        proxy_worker = FreeProxy()
-        proxy_worker.run(PROXY_URL)
+    def __init__(self):
+        self.free_proxy = FreeProxy()
+        self.proxy_url = PROXY_URL
+
+    def get_proxies(self):
+        proxy_worker = self.free_proxy
+        proxy_worker.run(self.proxy_url)
         proxies = proxy_worker.proxies
         return proxies
 
@@ -49,8 +52,5 @@ def run_time(func):
         end_time = datetime.now()
         total_time = end_time - start_time
         print(total_time)
+        # return result
     return new_func
-
-
-
-

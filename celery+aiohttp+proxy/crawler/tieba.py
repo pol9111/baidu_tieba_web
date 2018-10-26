@@ -3,10 +3,14 @@ import re
 from spider import TiebaSpider
 
 
-class TiebaCrawler:
+class TiebaCrawler(object):
 
-    async def start_requests(self, per_step_urls, proxies):
-        tasks = await TiebaSpider().downloader(per_step_urls, proxies)
+    def __init__(self):
+        self.tieba_spider = TiebaSpider()
+        self.redis_client = REDIS_CLIENT
+
+    async def start_requests(self, per_step_urls):
+        tasks = await self.tieba_spider.downloader(per_step_urls)
         self.parse(tasks)
 
     def parse(self, tasks):
@@ -32,13 +36,4 @@ class TiebaCrawler:
 
     def save_data(self, items):
         """数据暂存到redis中"""
-        REDIS_CLIENT.sadd('tiezi', items)
-
-
-
-
-
-
-
-
-
+        self.redis_client.sadd('tiezi', items)

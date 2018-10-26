@@ -1,7 +1,4 @@
-from scheduler import run
-
+from scheduler import start_tieba_clawer
 
 if __name__ == '__main__':
-
-    run.delay()
-
+    start_tieba_clawer.delay()

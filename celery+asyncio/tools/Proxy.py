@@ -2,7 +2,7 @@ import aiohttp
 import asyncio
 
 
-class FreeProxy(object):
+class FreeProxy:
 
     def __init__(self):
         self.proxies = []
